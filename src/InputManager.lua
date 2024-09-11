@@ -48,5 +48,17 @@ function InputManager:touchpressed(id, x, y, dx, dy, pressure)
     -- Emituj sygnał o dotyku
     Signal.emit("button_pressed", x, y, 1)  -- Symulujemy kliknięcie lewym przyciskiem
 end
+-- Obsługa przesunięcia dotyku
+function InputManager:touchmoved(id, x, y, dx, dy, pressure)
+    -- Emituj sygnał o przesunięciu dotyku
+    Signal.emit("touch_moved", x, y, dx, dy)
+end
+
+-- Obsługa zakończenia dotyku
+function InputManager:touchreleased(id, x, y, dx, dy, pressure)
+    -- Emituj sygnał o zakończeniu dotyku
+    Signal.emit("touch_released", x, y)
+end
+
 
 return InputManager

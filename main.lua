@@ -19,6 +19,25 @@ Signal.register("button_pressed", function(x, y, button)
     print("Kliknięto w pozycji: ", x, y, " przycisk: ", button)
 end)
 
+-- Obsługa przesunięcia dotyku
+function love.touchmoved(id, x, y, dx, dy, pressure)
+    inputManager:touchmoved(id, x, y, dx, dy, pressure)  -- Emitujemy sygnał o przesunięciu dotyku
+end
+
+-- Obsługa zakończenia dotyku
+function love.touchreleased(id, x, y, dx, dy, pressure)
+    inputManager:touchreleased(id, x, y, dx, dy, pressure)  -- Emitujemy sygnał o zakończeniu dotyku
+end
+
+-- Nasłuchiwanie na sygnały
+Signal.register("touch_moved", function(x, y, dx, dy)
+    print("Przesunięto dotyk na: " .. x .. ", " .. y .. " przesunięcie: " .. dx .. ", " .. dy)
+end)
+
+Signal.register("touch_released", function(x, y)
+    print("Dotyk zakończony w: " .. x .. ", " .. y)
+end)
+
 -- Aktualizacja gry
 function love.update(dt)
     inputManager:update(dt)  -- Aktualizacja pozycji kursora symulowanego za pomocą joysticka
