@@ -6,6 +6,8 @@ local inputManager = InputManager()  -- Tworzymy instancję Menadżera wejścia
 -- Testowe zmienne, aby śledzić ruch kursora i kliknięcia
 local cursorX, cursorY = 0, 0
 local lastClickX, lastClickY, lastButton = nil, nil, nil
+local touchDistanse = "0"
+local touchReles = ""
 
 -- Funkcja obsługująca ruch kursora
 Signal.register("cursor_moved", function(x, y)
@@ -31,11 +33,11 @@ end
 
 -- Nasłuchiwanie na sygnały
 Signal.register("touch_moved", function(x, y, dx, dy)
-    print("Przesunięto dotyk na: " .. x .. ", " .. y .. " przesunięcie: " .. dx .. ", " .. dy)
+    touchmoved = dx
 end)
 
 Signal.register("touch_released", function(x, y)
-    print("Dotyk zakończony w: " .. x .. ", " .. y)
+    touchReles = x.." "..y
 end)
 
 -- Aktualizacja gry
@@ -63,6 +65,16 @@ function love.draw()
     love.graphics.print("Pozycja kursora: (" .. cursorX .. ", " .. cursorY .. ")", 10, 10)
 
     if lastClickX and lastClickY then
-        love.graphics.print("Ostatnie kliknięcie: (" .. lastClickX .. ", " .. lastClickY .. ") przycisk: " .. lastButton, 10, 30)
+        love.graphics.print("Ostatnie klikniecie: (" .. lastClickX .. ", " .. lastClickY .. ") przycisk: " .. lastButton, 10, 30)
     end
+    if touchReles  then
+        love.graphics.print("Dotyk uwolniony : " .. touchReles, 10, 50)
+    end
+    if touchmoved  then
+        love.graphics.print("Dotyk przesunieto na osi x o  : " .. touchmoved, 10, 80)
+    end
+    if lastButton == 11 then 
+        love.event.quit()
+    end
+
 end
