@@ -1,5 +1,5 @@
 local Gamestate = require 'hump.gamestate'
-local MenuState = require 'MenuState'
+local MenuState = require 'GamesFolders.MenuState'
 
 function love.load()
     -- Ustawienie początkowego stanu na MenuState

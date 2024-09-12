@@ -1,25 +1,22 @@
 local Class = require 'hump.class'
 local Gamestate = require 'hump.gamestate'
-local StateLoader = require 'StateLoader'
-local StateConfig = require 'StateConfig'
-local BaseState = require 'BaseState'
+local StateLoader = require 'source.StateLoader'    -- Ścieżka do StateLoader
+local StateConfig = require 'StateConfig'           -- Ścieżka do StateConfig
+local BaseState = require 'source.BaseState'        -- Ścieżka do BaseState
 
 local MenuState = Class{__includes = BaseState}
 
 function MenuState:init()
+    -- Inicjalizacja z BaseState, wczytanie konfiguracji
     BaseState.init(self, "MenuState")
     
     -- Wczytanie stanów z pliku konfiguracyjnego
     self.states = StateConfig.states
     self.selectedState = 1
-    
-    -- Sprawdzanie i tworzenie plików konfiguracyjnych (jeśli potrzeba)
-    self:checkAndCreateConfigs()
 end
 
 function MenuState:update(dt)
-    -- Aktualizacje logiki menu
-    -- Możemy dodać tutaj dodatkową logikę, jeśli potrzebna
+    -- Logika aktualizacji dla MenuState
 end
 
 function MenuState:draw()
@@ -40,19 +37,6 @@ function MenuState:keypressed(key)
         -- Przełączenie do wybranego stanu
         local selectedStateName = self.states[self.selectedState].name
         Gamestate.switch(StateLoader.loadState(selectedStateName))
-    end
-end
-
--- Funkcja sprawdzająca i tworząca pliki konfiguracyjne, jeśli nie istnieją
-function MenuState:checkAndCreateConfigs()
-    for _, state in ipairs(self.states) do
-        local configPath = StateConfig.configFolder .. "/" .. state.name .. "Config.lua"
-        
-        if not love.filesystem.getInfo(configPath) then
-            local defaultConfig = "-- Domyślny plik konfiguracyjny dla " .. state.name .. "\nreturn {}"
-            love.filesystem.write(configPath, defaultConfig)
-            print("Utworzono domyślny plik konfiguracyjny: " .. configPath)
-        end
     end
 end
 
